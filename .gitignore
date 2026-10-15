@@ -1,0 +1,12 @@
+node_modules/
+dist/
+private/
+.local-tools/
+*.profile.json
+*.local.json
+*.task.json
+*.proposal.json
+.env
+.env.*
+test-results/
+.DS_Store

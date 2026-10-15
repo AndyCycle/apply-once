@@ -16,6 +16,8 @@ Local-first Chrome recruitment autofill. Deterministic rules work without an LLM
 
 ## 安装（Chrome 116+）
 
+直接下载：[扩展安装包](https://github.com/AndyCycle/apply-once/raw/refs/heads/main/apply-once-v0.1.0.zip)（解压后加载 `apply-once` 目录）；或通过 **Code → Download ZIP** 下载完整仓库后按下列步骤加载 `extension` 目录。
+
 1. 下载代码并解压，保留 `extension` 文件夹。
 2. 打开 `chrome://extensions`，启用右上角「开发者模式」。
 3. 点击「加载已解压的扩展程序」，选择 `extension`。
