@@ -2,6 +2,8 @@
 
 ## 接手入口
 
+Agent 从根目录 [AGENTS.md](../AGENTS.md) 进入，反馈处理与复盘遵循 [开发循环](AUTOMATION.md)。
+
 先读 [架构](ARCHITECTURE.md)、[README](../README.md) 和涉及模型时的 [Agent 协议](AGENT-PROTOCOL.md)，再查看对应源文件与测试。问题说明应包含触发条件、当前行为、期望行为与虚构复现样例。
 
 ## 一次变更
@@ -14,9 +16,7 @@
 
 ```sh
 npm ci
-npm test
-npm run check
-npm run package
+npm run validate
 ```
 
 ## 需要持续保持的行为
