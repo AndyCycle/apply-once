@@ -1,8 +1,45 @@
+<div align="center">
+
+<img src="docs/assets/logo.png" width="156" alt="ApplyOnce logo：资料卡与勾选标识" />
+
 # ApplyOnce · 一次填写
+
+**一份求职资料，少填一遍表。**
+
+扫描当前页面 · 核对字段匹配 · 确认后填写
+
+[![Validate extension](https://github.com/AndyCycle/apply-once/actions/workflows/test.yml/badge.svg)](https://github.com/AndyCycle/apply-once/actions/workflows/test.yml)
+[![Chrome 116+](https://img.shields.io/badge/Chrome-116%2B-4f46e5?style=flat-square)](#安装)
+[![Local first](https://img.shields.io/badge/Local-first-0d9488?style=flat-square)](#隐私与权限)
+[![License MIT](https://img.shields.io/badge/License-MIT-64748b?style=flat-square)](LICENSE)
+
+[下载安装包](https://github.com/AndyCycle/apply-once/raw/refs/heads/main/apply-once-v0.1.0.zip) · [快速开始](#安装) · [Agent 接入](docs/AGENT-PROTOCOL.md) · [开发指南](docs/DEVELOPMENT.md)
+
+</div>
+
+---
 
 本地优先的 Chrome 求职填表扩展。维护一份资料，在不同企业的招聘系统中扫描、核对并填写，手动修正的字段映射可供下次复用。
 
 Local-first Chrome recruitment autofill. Deterministic rules work without an LLM. Bring your own OpenAI-compatible API or export a mapping task to a local agent. Every suggestion is reviewed before filling. MIT licensed. [Agent integration guide](docs/AGENT-PROTOCOL.md).
+
+## 为重复填表减负
+
+| 一份资料，多次使用 | 每次填写，由你核对 | 规则优先，AI 可选 |
+|:---|:---|:---|
+| 基本信息、教育、实习、项目统一维护，保存在本机 | 预览匹配、本次修改、保护已有值，支持单次撤销 | 常见字段离线匹配；特殊标签可接 API 或本地 Agent |
+
+```mermaid
+flowchart LR
+    A[维护本地资料] --> C[核对字段与本次值]
+    B[扫描招聘表单] --> C
+    C --> D[勾选并填写]
+    D --> E[回读检查]
+    E --> F[本人完成最终提交]
+    C -. 保存映射供下次复用 .-> B
+```
+
+资料值由本机填入；附件、验证码、协议和最终提交由本人操作。
 
 ## 三种使用方式
 
@@ -14,7 +51,9 @@ Local-first Chrome recruitment autofill. Deterministic rules work without an LLM
 
 辅助模式只提供字段映射，资料值始终由本机资料库填入。详见 [接入协议与可复制提示词](docs/AGENT-PROTOCOL.md)。
 
-## 安装（Chrome 116+）
+## 安装
+
+适用于 **Chrome 116+**，下载后即可加载。
 
 直接下载：[扩展安装包](https://github.com/AndyCycle/apply-once/raw/refs/heads/main/apply-once-v0.1.0.zip)（解压后加载 `apply-once` 目录）；或通过 **Code → Download ZIP** 下载完整仓库后按下列步骤加载 `extension` 目录。
 
@@ -66,6 +105,8 @@ Local-first Chrome recruitment autofill. Deterministic rules work without an LLM
 - 仓库不收录真实资料。`private/`、`*.profile.json` 等被 Git 忽略。
 
 ## 开发与验证
+
+[架构与数据流](docs/ARCHITECTURE.md) · [开发与验收流程](docs/DEVELOPMENT.md) · [Magpie 自动化流程研究](docs/MAGPIE-WORKFLOW.md)
 
 ```sh
 npm ci
