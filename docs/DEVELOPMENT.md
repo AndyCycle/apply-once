@@ -29,6 +29,6 @@ npm run validate
 
 ## 自动化的下一阶段
 
-参见 [Magpie 研究](MAGPIE-WORKFLOW.md)。现有 Actions 已在 push/PR 上执行测试、静态检查、打包和产物上传。优先增加真实 Chromium 的虚构表单验收与 PR 截图，再考虑反馈巡检和版本发布自动化。
+参见 [Magpie 研究](MAGPIE-WORKFLOW.md) 和 [LoopX 状态与验收研究](LOOPX-WORKFLOW.md)。现有 Actions 已在 push/PR 上执行测试、静态检查、打包和产物上传。优先增加真实 Chromium 的虚构表单验收与 PR 截图，再考虑反馈巡检和版本发布自动化。
 
 建议将反馈处理分成可追溯状态：待复现 → 已复现 → 修复分支 → 验证通过 → 待发布 → 已发布。为每项反馈记录来源、提交和测试证据，避免重复处理。定时巡检、对外回复、自动合并与发布尚未启用；配置具体范围与凭据后再实施。
