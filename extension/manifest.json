@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "ApplyOnce · 一次填写",
+  "description": "本地维护求职资料，预览匹配招聘表单，确认后填入并记住站点映射。",
+  "version": "0.1.0",
+  "minimum_chrome_version": "116",
+  "permissions": ["storage", "activeTab", "scripting", "sidePanel"],
+  "optional_host_permissions": ["https://*/*", "http://localhost/*", "http://127.0.0.1/*"],
+  "action": {"default_title": "打开 ApplyOnce"},
+  "background": {"service_worker": "background.js"},
+  "side_panel": {"default_path": "panel.html"},
+  "content_security_policy": {"extension_pages": "script-src 'self'; object-src 'none'; connect-src https: http://localhost:* http://127.0.0.1:*"}
+}
