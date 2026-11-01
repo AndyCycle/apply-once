@@ -28,7 +28,10 @@ jobs:
       - run: npm ci
       - run: npm run validate
       - run: npx playwright install --with-deps chromium
+        if: runner.os == 'Linux'
       - run: npm run test:browser
+        env:
+          APPLY_ONCE_BROWSER_CHANNEL: ${{ runner.os == 'Windows' && 'chrome' || '' }}
       - uses: actions/upload-artifact@v4
         with:
           name: apply-once-chrome-${{ runner.os }}-${{ github.sha }}
