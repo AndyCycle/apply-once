@@ -1,6 +1,16 @@
 # ApplyOnce 架构与数据流
 
-本项目是原生 JavaScript 的 Chrome Manifest V3 扩展，没有构建步骤或后台业务服务器。此文根据 2026-10-15 的代码整理，供本会话及后续开发交接使用。
+本项目提供原生 JavaScript 的 Chrome Manifest V3 扩展，以及 Node.js + Playwright 本地版。扩展无需构建；本地版增加仅监听回环地址的控制服务，复用 schema 与页面引擎。此文更新于 2026-11-01。
+
+## 本地浏览器入口
+
+`local/start.mjs` 启动专用持久浏览器和 `local/server.mjs`，控制页面由 `local/index.html`、`app.js`、`style.css` 提供。`local/browser.mjs` 管理目标标签页、扫描轮次和填写请求，`local/region.js` 在目标页面安装临时拖框遮罩，Esc 或 pointercancel 清理遮罩并取消。
+
+框选坐标以当前视口 CSS 像素计，选择期间拦截滚轮。`engine.scan(region)` 先计算整页的字段指纹和歧义，再按控件中心点筛选并缩小可填写句柄表，保留整页经历序号。框选后只显示区域内字段；填写前核对轮次、目标页与资料路径，沿用引擎的字段身份检查与回读。刷新后旧句柄失效，需要重新扫描。
+
+资料显式保存到用户目录 `.apply-once/profile.json`，专用浏览器目录为 `.apply-once/browser`；可通过 `APPLY_ONCE_DATA_DIR` 指定其他目录。资料不加密，控制服务不记录表单值日志。API 仅接受本机绑定 Host、同源 Origin 和每次启动随机令牌，请求大小上限 2MB；令牌只供本机控制页面使用。第三方招聘页面仍会收到用户选中的填写值。
+
+本地模式先提供规则匹配、人工改映射、框选、填写与撤销。它不读取扩展 storage；两入口通过 version 1 资料 JSON 手动迁移。自定义控件、iframe 和最终提交边界沿用扩展说明。
 
 ## 模块入口
 

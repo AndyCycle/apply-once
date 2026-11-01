@@ -9,4 +9,6 @@ private/
 .env
 .env.*
 test-results/
+evidence/
+.apply-once/
 .DS_Store

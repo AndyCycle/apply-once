@@ -51,7 +51,7 @@
   }
   function value(e){return e.isContentEditable||e.getAttribute('contenteditable')==='true'?e.textContent:e.value;}
   function fingerprint(e,l,c){return [c.section,c.recordIndex,l,e.tagName,e.type||'',e.name||'',e.getAttribute('autocomplete')||''].join('|');}
-  function scan(){
+  function scan(region=null){
     fields=new Map();const result=[], seen=new Set(), occurrences=new Map();
     for(const root of roots())for(const e of root.querySelectorAll(supported)){
       if(!visible(e)||excluded.has(e.type)||e.closest('[data-apply-once-ui]')||seen.has(e))continue;
@@ -65,7 +65,10 @@
     }
     // Repeated indistinguishable labels require manual confirmation, including the first.
     for(const item of result)if((occurrences.get(item.key.replace(/\|\d+$/,''))||0)>1)item.ambiguous=true;
-    return {fields:result,origin:location.origin,route:location.pathname+location.hash.split('?')[0],title:document.title,platform:/mokahr\.com$/.test(location.hostname)?'Moka（自定义选项需手选）':/zhiye\.com$/.test(location.hostname)?'北森（通用识别）':/dayee\.com$/.test(location.hostname)?'大易（通用识别）':'通用表单',iframeCount:document.querySelectorAll('iframe').length};
+    // Preserve whole-page occurrence keys, then scope handles to the selected area.
+    const scoped=region?result.filter(item=>{const r=fields.get(item.id).e.getBoundingClientRect();const x=r.left+r.width/2,y=r.top+r.height/2;return x>=region.left&&x<=region.right&&y>=region.top&&y<=region.bottom;}):result;
+    fields=new Map(scoped.map(item=>[item.id,fields.get(item.id)]));
+    return {fields:scoped,origin:location.origin,route:location.pathname+location.hash.split('?')[0],title:document.title,platform:/mokahr\.com$/.test(location.hostname)?'Moka（自定义选项需手选）':/zhiye\.com$/.test(location.hostname)?'北森（通用识别）':/dayee\.com$/.test(location.hostname)?'大易（通用识别）':'通用表单',iframeCount:document.querySelectorAll('iframe').length};
   }
   function set(e,v){
     if(e.isContentEditable||e.getAttribute('contenteditable')==='true')e.textContent=v;

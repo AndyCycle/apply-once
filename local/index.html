@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="app-token" content="APP_TOKEN"><title>ApplyOnce 本地版</title><link rel="stylesheet" href="/style.css"></head>
+<body><main>
+<header><span class="mark">✓</span><div><h1>ApplyOnce <small>本地版</small></h1><p>一份资料 · 框选范围 · 核对后填写</p></div></header>
+<p id="status" role="status">正在读取本地资料…</p>
+<details id="profile-section"><summary>我的资料</summary><p>资料保存到本机。支持导入扩展导出的 version 1 JSON。</p><div class="actions"><label>导入资料 <input type="file" id="import" accept=".json"></label><button id="export">导出资料</button></div><div id="profile-form"></div><button id="save" class="primary">保存资料</button></details>
+<section><h2>1. 打开并选择招聘页面</h2><div class="actions"><input id="url" type="url" placeholder="https://招聘网站/申请页面" aria-label="招聘网页地址"><button id="open">打开网页</button></div><p>在专用浏览器中自行登录，打开申请表；可在浏览器手动新建标签页。</p><div class="actions"><select id="tabs" aria-label="招聘标签页"></select><button id="refresh">刷新标签页</button></div></section>
+<section><h2>2. 选择填写范围</h2><div class="actions"><button id="region" class="primary">框选区域</button><button id="scan">扫描整页</button></div><p>点击框选后切换到招聘页，拖动鼠标圈出区域。仅识别中心点在框内的字段，按 Esc 取消。</p><p id="scope"></p></section>
+<section><h2>3. 核对并填写</h2><div class="actions"><label><input id="overwrite" type="checkbox">允许覆盖已有值</label><label><input id="sensitive" type="checkbox">允许本次填写证件号码</label></div><div id="fields"></div><div class="actions"><button id="fill" class="primary">填写勾选字段</button><button id="undo">撤销上次填写</button></div><p>自定义控件需手动选择；新增经历后重新扫描。上传、验证码、协议和最终提交由本人完成。</p></section>
+</main><script type="module" src="/app.js"></script></body></html>

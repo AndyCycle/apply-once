@@ -19,7 +19,23 @@
 
 ---
 
-本地优先的 Chrome 求职填表扩展。维护一份资料，在不同企业的招聘系统中扫描、核对并填写，手动修正的字段映射可供下次复用。
+本地优先的求职填表工具，提供 **Chrome 扩展** 和 **本地程序 + 浏览器自动化** 两种入口。维护一份资料，在不同企业的招聘系统中扫描、核对并填写。本地版支持在浏览器中拖框选择填写区域，无需安装扩展。
+
+## 本地版：无需浏览器扩展
+
+需要 Node.js 22+。Windows 已安装 Chrome 时，在仓库目录运行一次 `npm ci`，然后双击 **`start-local.cmd`** 启动。
+
+也可以使用 Playwright 自带 Chromium（Windows/Linux/macOS）：
+
+```sh
+npm ci
+npx playwright install chromium
+npm start
+```
+
+在打开的 ApplyOnce 页面保存资料或导入扩展导出的 JSON，打开招聘网页并自行登录，选择招聘标签页 → 点击「框选区域」→ 在招聘页拖框 → 返回控制页核对并点击「填写勾选字段」。按 Esc 取消框选，也支持扫描整页。详见 [本地版使用说明](docs/LOCAL-BROWSER.md)。
+
+本地版使用专用浏览器数据目录，不接管日常浏览器；登录状态会在退出后保留。当前本地版提供规则匹配和人工调整，API/Agent 接入与记住站点映射仍由扩展入口提供。旧的 v0.1.0 ZIP 只包含扩展，本地版请下载完整仓库源码。
 
 Local-first Chrome recruitment autofill. Deterministic rules work without an LLM. Bring your own OpenAI-compatible API or export a mapping task to a local agent. Every suggestion is reviewed before filling. MIT licensed. [Agent integration guide](docs/AGENT-PROTOCOL.md).
 
