@@ -6,11 +6,11 @@ const root=document.querySelector('#form');
 function select(id,values,current=''){
  const container=document.createElement('div');container.className='sd-Dropdown-container-demo';
  const label=document.createElement('label');label.className='sd-Select-container-demo';
- const input=document.createElement('input');input.id=id;input.placeholder='请选择';
+ const input=document.createElement('input');input.id=id;input.placeholder=current?'':'请选择';
  const display=document.createElement('span');display.className='sd-Input-display-value-demo';display.id=id+'-value';display.textContent=current;
  const menu=document.createElement('div');menu.className='sd-Select-menu-demo';menu.hidden=true;
  input.onclick=()=>{setTimeout(()=>menu.hidden=false,40);};input.onkeydown=e=>{if(e.key==='Escape')menu.hidden=true;};
- for(const value of values){const item=document.createElement('div');item.className='sd-Select-common-item-demo';const text=document.createElement('div');text.className='option-label-demo';text.textContent=value;item.append(text);item.onclick=()=>{display.textContent=value;input.value='';menu.hidden=true;};menu.append(item);}
+ for(const value of values){const item=document.createElement('div');item.className='sd-Select-common-item-demo';const text=document.createElement('div');text.className='option-label-demo';text.textContent=value;item.append(text);item.onclick=()=>{display.textContent=value;input.value='';input.placeholder='';menu.hidden=true;};menu.append(item);}
  label.append(input,display);container.append(label,menu);return container;
 }
 function field(title,controls){const e=document.createElement('div');e.className='apply-field-demo';const t=document.createElement('div');t.className='title-demo';t.textContent=title;const row=document.createElement('div');row.className='dates';row.append(...controls);e.append(t,row);return e;}
