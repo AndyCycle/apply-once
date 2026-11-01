@@ -1,0 +1,22 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>虚构 Moka Sugar 表单</title>
+<style>body{font:17px system-ui;padding:25px;color:#24334d}section{border:1px solid #bbb;padding:18px;margin:12px;width:700px}.apply-field-demo{margin:10px}.title-demo{font-weight:600}.dates{display:flex;gap:10px}.sd-Dropdown-container-demo{position:relative;margin:5px}.sd-Select-container-demo{display:block;position:relative;width:125px;height:38px;border:1px solid #aaa}.sd-Select-container-demo input{width:100%;height:100%;box-sizing:border-box;color:transparent;caret-color:transparent}.sd-Input-display-value-demo{position:absolute;top:6px;left:5px;pointer-events:none}.sd-Select-menu-demo{position:absolute;top:40px;background:white;z-index:10;border:1px solid #aaa;min-width:130px}.sd-Select-common-item-demo{padding:6px;cursor:pointer}.sd-Select-common-item-demo:hover{background:#dff5ef}</style>
+<h1>虚构 Moka Sugar 表单</h1><div id="form"></div>
+<script>
+const root=document.querySelector('#form');
+function select(id,values,current=''){
+ const container=document.createElement('div');container.className='sd-Dropdown-container-demo';
+ const label=document.createElement('label');label.className='sd-Select-container-demo';
+ const input=document.createElement('input');input.id=id;input.placeholder='请选择';
+ const display=document.createElement('span');display.className='sd-Input-display-value-demo';display.id=id+'-value';display.textContent=current;
+ const menu=document.createElement('div');menu.className='sd-Select-menu-demo';menu.hidden=true;
+ input.onclick=()=>{setTimeout(()=>menu.hidden=false,40);};input.onkeydown=e=>{if(e.key==='Escape')menu.hidden=true;};
+ for(const value of values){const item=document.createElement('div');item.className='sd-Select-common-item-demo';const text=document.createElement('div');text.className='option-label-demo';text.textContent=value;item.append(text);item.onclick=()=>{display.textContent=value;input.value='';menu.hidden=true;};menu.append(item);}
+ label.append(input,display);container.append(label,menu);return container;
+}
+function field(title,controls){const e=document.createElement('div');e.className='apply-field-demo';const t=document.createElement('div');t.className='title-demo';t.textContent=title;const row=document.createElement('div');row.className='dates';row.append(...controls);e.append(t,row);return e;}
+function block(id,title){const section=document.createElement('section');section.id=id;section.className='apply-block-demo';const heading=document.createElement('h2');heading.className='blockTitle-demo';heading.textContent=title;section.append(heading);root.append(section);return section;}
+const education=block('education','教育背景'),record=document.createElement('div');record.className='apply-fields-demo';
+record.append(field('学校名称',[select('school',['虚构大学','另一所大学'])]),field('就读时间',[select('start-year',['2024','2025']),select('start-month',['6','9']),select('end-year',['2026','2027']),select('end-month',['6','9'])]));education.append(record);
+const languages=block('languages','语言能力');
+for(const [i,language] of ['英文','日语'].entries()){const r=document.createElement('div');r.className='apply-fields-demo';r.append(field('语言类型',[select('language-'+i,['英文','日语'])]),field('阅读能力',[select('reading-'+i,['一般','熟练','精通'],i===0?'精通':'')]));languages.append(r);}
+</script></html>

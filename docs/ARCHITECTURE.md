@@ -10,7 +10,7 @@
 
 资料显式保存到用户目录 `.apply-once/profile.json`，专用浏览器目录为 `.apply-once/browser`；可通过 `APPLY_ONCE_DATA_DIR` 指定其他目录。资料不加密，控制服务不记录表单值日志。API 仅接受本机绑定 Host、同源 Origin 和每次启动随机令牌，请求大小上限 2MB；令牌只供本机控制页面使用。第三方招聘页面仍会收到用户选中的填写值。
 
-本地模式先提供规则匹配、人工改映射、框选、填写与撤销。它不读取扩展 storage；两入口通过 version 1 资料 JSON 手动迁移。自定义控件、iframe 和最终提交边界沿用扩展说明。
+本地模式提供规则匹配、人工改映射、框选、填写与撤销。它不读取扩展 storage；两入口通过 version 1 资料 JSON 手动迁移。共享引擎现适配 Moka Sugar 单选与拆分年月：读取 apply-field 标题和显示值，按 apply-block / apply-fields 定位分组和重复记录，展开控件内菜单后只点击唯一精确选项并回读。引擎版本为 3，重扫时替换旧注入实例。Moka 选项暂不自动撤销，两入口都提示这一限制；原生字段撤销保持不变。
 
 ## 模块入口
 
@@ -42,6 +42,6 @@ Agent 与兼容 API 都返回 `version + requestId + mappings`。校验拒绝过
 
 ## 当前验证边界
 
-自动化测试使用 Node test runner 和 jsdom。它们验证 DOM 逻辑与模拟的扩展接口；Chrome 的真实权限、侧栏生命周期以及具体招聘站点的组件行为仍需浏览器验收。Moka 自定义选择器需手动操作，北森和大易仅有通用识别说明，不能据此宣称已逐站验证。
+自动化测试使用 Node test runner 和 jsdom，另有真实 Chrome/Chromium 的本地控制页端到端测试。虚构 Moka Sugar 样例覆盖单选、年月、已有值及重复记录；DOM 测试额外覆盖重复/缺失/禁用选项和回读失败。Chrome 扩展的真实权限、侧栏生命周期以及具体招聘站点的组件行为仍需独立验收；北森、大易及其他 Moka 控件尚未逐站验证。
 
 仓库内的两个 ZIP 是已有下载产物；运行 `npm run package` 输出 `dist/apply-once/`，不会自动刷新这两个 ZIP。发布时须核对版本与产物来源。

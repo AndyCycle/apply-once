@@ -69,6 +69,7 @@ function renderFields(){
     const locate=el('button',{},'定位');locate.onclick=()=>run(async()=>{if(!await call('locate',[field.id]))throw new Error('字段已变化，请重新扫描');});
     const copy=el('button',{},'复制本次值');copy.onclick=()=>run(async()=>{await navigator.clipboard.writeText(input.value);status('已复制。切换页面后可粘贴。');});actions.append(locate,copy);card.append(actions,result);
     if(field.kind==='custom'){check.disabled=true;card.append(el('p',{className:'warning'},'此控件需手动选择。复制后在页面搜索，并点击正确选项。'));}
+    if(field.kind==='moka-select')card.append(el('p',{className:'warning'},'Moka Sugar 单选：仅选择唯一精确匹配项并回读确认。此类字段暂不支持单次撤销，请核对本次值。'));
     target.append(card);
   }
 }
@@ -85,7 +86,7 @@ $('fill').onclick=()=>run(async()=>{
   for(const r of results){const row=rows.find(x=>x.field.id===r.id);if(row)row.result.textContent=r.status;}
   $('sensitive').checked=false;status('本轮填写完成，请检查各行结果及网页。申请尚未提交。');
 });
-$('undo').onclick=()=>run(async()=>{const r=await call('revert');status(`已还原${r.restored}项，跳过${r.skipped}项（页面变化或已被再次编辑）。`);});
+$('undo').onclick=()=>run(async()=>{const r=await call('revert');status(`已还原${r.restored}项，跳过${r.skipped}项（自定义选项、页面变化或已被再次编辑）。`);});
 function prepareTask(){if(!snapshot)throw new Error('请先扫描');assistTask=makeTask(snapshot,entries,crypto.randomUUID());$('assist-preview').value=JSON.stringify(assistTask,null,2);return assistTask;}
 function applyProposal(data){if(!assistTask)throw new Error('请先生成本轮任务');const suggestions=validateProposal(data,assistTask);for(const m of suggestions){const row=rows.find(r=>r.field.id===m.fieldId);if(!row||row.select.value||row.input.value)continue;row.select.value=m.profilePath;row.input.value=entries.find(e=>e.path===m.profilePath)?.value||'';row.check.checked=false;row.result.textContent='Agent 建议：请核对并手动勾选';}status('建议已加入空白预览行，请核对后勾选。已有匹配保留。');}
 $('prepare-assist').onclick=()=>run(async()=>{prepareTask();status('任务已生成。检查下方文字后，可导出给本地 agent 或发送 API。');});

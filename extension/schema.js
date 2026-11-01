@@ -74,7 +74,8 @@ export const aliases={
 };
 export function normalize(value){return String(value||'').toLowerCase().replace(/[\s*：:（）()\/\-_]/g,'').replace(/^请输入|^请选择|^选择/,'');}
 export function infer(field,entries){
-  const label=normalize(field.label);
+  let label=normalize(field.label),part='';
+  if(/（[年月]）$/.test(field.label)){part=field.label.endsWith('（年）')?'year':'month';label=normalize(field.label.slice(0,-3));}
   if(!label||['年','月','内容','请选择'].includes(label)) return null;
   const matches=[];
   for(const [key,names] of Object.entries(aliases)){
@@ -82,7 +83,7 @@ export function infer(field,entries){
     const [section,prop]=key.split('.');
     if(sections[section].repeat){
       if(field.section!==section)continue;
-      const e=entries.find(x=>x.path===`${section}.${field.recordIndex||0}.${prop}`);
+      const e=entries.find(x=>x.path===`${section}.${field.recordIndex||0}.${prop}${part?'.'+part:''}`);
       if(e)matches.push(e);
     }else{
       if(field.section && sections[field.section]?.repeat)continue;
